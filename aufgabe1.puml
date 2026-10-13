@@ -1,0 +1,23 @@
+@startuml AV_Aufgabe1
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+actor "Kunde" as K
+rectangle "AV-System" {
+  usecase "Mietangebot\nanfordern" as Quote
+  usecase "Fahrzeugdetails\nansehen" as Details
+  usecase "Angebot per E-Mail\nerhalten" as QuoteEmail
+  usecase "Fahrzeug\nbuchen" as Book
+  usecase "Mietoptionen\nauswählen" as Options
+  usecase "Mietbedingungen\neinsehen" as Conditions
+  usecase "E-Mail-Adresse\nangeben" as Email
+}
+K -- Quote
+K -- Book
+Details ..> Quote : <<extend>>
+QuoteEmail ..> Quote : <<extend>>
+Options ..> Book : <<extend>>
+Book ..> Conditions : <<include>>
+Book ..> Email : <<include>>
+QuoteEmail ..> Email : <<include>>
+@enduml
