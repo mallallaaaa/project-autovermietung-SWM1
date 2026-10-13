@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="980" viewBox="0 0 1560 980">
+<defs><marker id="uml-arrow" markerWidth="13" markerHeight="13" refX="11" refY="6.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 11 6.5 L 1 12" fill="none" stroke="#34475b" stroke-width="1.7" stroke-linecap="round"/></marker></defs>
+<rect width="1560" height="980" fill="#ffffff" />
+<text x="78" y="57" font-family="DejaVu Sans,Arial,sans-serif" font-size="29" fill="#1b293a" font-weight="bold">Aufgabe 1 · Anwendungsfallmodell</text>
+<text x="78" y="91" font-family="DejaVu Sans,Arial,sans-serif" font-size="17" fill="#5c6c7e">Perspektive des Kunden · Autovermietung (AV)</text>
+<rect x="298" y="124" width="1220" height="806" rx="16" fill="#f7f9fc" stroke="#758398" stroke-width="2"/>
+<text x="920" y="157" font-family="DejaVu Sans,Arial,sans-serif" font-size="24" fill="#28394f" font-weight="bold" text-anchor="middle">AV-System</text>
+
+<circle cx="133" cy="412" r="24" fill="none" stroke="#203447" stroke-width="3"/>
+<path d="M133 436V507 M87 466H179 M133 507L96 568 M133 507L170 568" fill="none" stroke="#203447" stroke-width="3.2" stroke-linecap="round" />
+<text x="133" y="605" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="25" fill="#142a40" font-weight="600">Kunde</text>
+
+<path d="M180 466 C252 430, 300 317, 442 295" fill="none" stroke="#34475b" stroke-width="2.2" />
+<path d="M180 485 C268 505, 321 604, 443 636" fill="none" stroke="#34475b" stroke-width="2.2" />
+<path d="M1000 243 C922 251, 847 262, 777 280" fill="none" stroke="#34475b" stroke-width="2.2" stroke-dasharray="9 7" marker-end="url(#uml-arrow)" />
+<rect x="832.5" y="208" width="125" height="32" rx="7" fill="#f7f9fc" />
+<text x="895" y="230" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" fill="#465871">«extend»</text>
+<path d="M999 390 C913 363, 835 322, 775 306" fill="none" stroke="#34475b" stroke-width="2.2" stroke-dasharray="9 7" marker-end="url(#uml-arrow)" />
+<rect x="809.5" y="346" width="125" height="32" rx="7" fill="#f7f9fc" />
+<text x="872" y="368" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" fill="#465871">«extend»</text>
+<path d="M994 540 C910 555, 839 609, 777 621" fill="none" stroke="#34475b" stroke-width="2.2" stroke-dasharray="9 7" marker-end="url(#uml-arrow)" />
+<rect x="829.5" y="549" width="125" height="32" rx="7" fill="#f7f9fc" />
+<text x="892" y="571" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" fill="#465871">«extend»</text>
+<path d="M778 660 C853 680, 929 694, 996 704" fill="none" stroke="#34475b" stroke-width="2.2" stroke-dasharray="9 7" marker-end="url(#uml-arrow)" />
+<rect x="815.0" y="661" width="130" height="32" rx="7" fill="#f7f9fc" />
+<text x="880" y="683" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" fill="#465871">«include»</text>
+<path d="M735 675 C788 829, 846 862, 991 865" fill="none" stroke="#34475b" stroke-width="2.2" stroke-dasharray="9 7" marker-end="url(#uml-arrow)" />
+<rect x="799.0" y="835" width="130" height="32" rx="7" fill="#f7f9fc" />
+<text x="864" y="857" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" fill="#465871">«include»</text>
+<path d="M1293 387 C1456 401, 1470 466, 1470 630 L1470 857 Q1451 891, 1296 879" fill="none" stroke="#34475b" stroke-width="2.2" stroke-dasharray="9 7" marker-end="url(#uml-arrow)" />
+<rect x="1325.0" y="638" width="130" height="32" rx="7" fill="#f7f9fc" />
+<text x="1390" y="660" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="18" fill="#465871">«include»</text>
+<ellipse cx="610" cy="300" rx="170" ry="55" fill="#ffffff" stroke="#304d6e" stroke-width="2.4"/>
+<text x="610" y="294.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">Mietangebot</text>
+<text x="610" y="320.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">anfordern</text>
+<ellipse cx="610" cy="640" rx="170" ry="55" fill="#ffffff" stroke="#304d6e" stroke-width="2.4"/>
+<text x="610" y="634.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">Fahrzeug</text>
+<text x="610" y="660.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">buchen</text>
+<ellipse cx="1157" cy="225" rx="165" ry="52" fill="#ffffff" stroke="#304d6e" stroke-width="2.4"/>
+<text x="1157" y="219.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">Fahrzeugdetails</text>
+<text x="1157" y="245.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">ansehen</text>
+<ellipse cx="1157" cy="390" rx="165" ry="52" fill="#ffffff" stroke="#304d6e" stroke-width="2.4"/>
+<text x="1157" y="384.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">Angebot per E-Mail</text>
+<text x="1157" y="410.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">erhalten</text>
+<ellipse cx="1157" cy="540" rx="165" ry="52" fill="#ffffff" stroke="#304d6e" stroke-width="2.4"/>
+<text x="1157" y="534.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">Mietoptionen</text>
+<text x="1157" y="560.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">auswählen</text>
+<ellipse cx="1157" cy="704" rx="165" ry="52" fill="#ffffff" stroke="#304d6e" stroke-width="2.4"/>
+<text x="1157" y="698.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">Mietbedingungen</text>
+<text x="1157" y="724.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">einsehen</text>
+<ellipse cx="1157" cy="868" rx="165" ry="52" fill="#ffffff" stroke="#304d6e" stroke-width="2.4"/>
+<text x="1157" y="862.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">E-Mail-Adresse</text>
+<text x="1157" y="888.0" text-anchor="middle" font-family="DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="500" fill="#142a40">angeben</text>
+<rect x="70" y="859" width="178" height="69" rx="10" fill="#ffffff" stroke="#ccd4df" />
+<text x="84" y="880" font-family="DejaVu Sans,Arial,sans-serif" font-size="16" fill="#41576b" font-weight="600">Legende</text>
+<path d="M88 901 H133" stroke="#34475b" stroke-width="2" stroke-dasharray="9 7" />
+<text x="143" y="907" font-family="DejaVu Sans,Arial,sans-serif" font-size="15" fill="#41576b">Abhängigkeit</text>
+</svg>
