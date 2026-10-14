@@ -1,0 +1,88 @@
+@startuml AV_Aufgabe4
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 60
+
+class EKunde {
+  kundenId
+  name
+  strasse
+  plz
+  ort
+  telefonnummer
+  email
+  geburtsdatum
+}
+
+class EKreditkarte {
+  kartennummer
+  inhaber
+  gueltigBis
+}
+
+class EAngebot {
+  angebotId
+  abholDatum
+  rueckgabeDatum
+  preis
+}
+
+class EBuchung {
+  bestaetigungsnummer
+  status
+  gesamtpreis
+}
+
+class EFahrzeugtyp {
+  typId
+  bezeichnung
+  sitzplaetze
+  gepaeckkapazitaet
+  tagespreis
+}
+
+class EFahrzeugmodell {
+  marke
+  modell
+}
+
+class EStandort {
+  standortId
+  name
+  adresse
+}
+
+class EVersicherung {
+  bezeichnung
+  preisProTag
+}
+
+class EExtra {
+  bezeichnung
+  preisProTag
+}
+
+class EAktionscode {
+  code
+  rabattProzent
+  gueltigBis
+}
+
+class EBuchungExtra {
+  anzahl
+}
+
+EKunde "1" -right- "0..*" EAngebot : fordert an
+EKunde "1" -down- "0..*" EKreditkarte : besitzt
+EAngebot "1" -right- "0..1" EBuchung : führt zu
+EAngebot "0..*" -down- "1" EFahrzeugtyp : betrifft
+EAngebot "0..*" -up- "1" EStandort : Abholort
+EAngebot "0..*" -up- "1" EStandort : Rückgabeort
+EFahrzeugtyp "1" -down- "1..*" EFahrzeugmodell : enthält
+EBuchung "0..*" -down- "1" EKreditkarte : bezahlt mit
+EBuchung "0..*" -right- "0..*" EVersicherung : wählt
+EBuchung "0..*" -down- "0..1" EAktionscode : löst ein
+EBuchung "1" -- "0..*" EBuchungExtra
+EBuchungExtra "0..*" -- "1" EExtra
+@enduml
