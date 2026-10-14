@@ -1,0 +1,51 @@
+@startuml AV_Aufgabe2
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam linetype polyline
+skinparam nodesep 12
+skinparam ranksep 45
+
+actor "Kunde" as K
+
+rectangle "AV-System" {
+  usecase "Fahrzeuge\nsuchen" as Search
+  usecase "Mietangebot\nerstellen" as Quote
+  usecase "Preis\nberechnen" as Price
+  usecase "Fahrzeugdetails\nanzeigen" as Details
+  usecase "Angebot per\nE-Mail senden" as QuoteEmail
+
+  usecase "Buchungsanfrage\nbearbeiten" as Book
+  usecase "Mietdaten\nüberprüfen" as Review
+  usecase "Mietoptionen\nanbieten" as Options
+  usecase "Mietbedingungen\nanzeigen" as Conditions
+  usecase "Kunden- und\nZahlungsdaten\nerfassen" as Data
+  usecase "Kreditkarte\nvalidieren" as Card
+  usecase "Buchung\nbestätigen" as Confirm
+  usecase "Bestätigungs-E-Mail\nsenden" as ConfirmEmail
+  usecase "Datenbank\naktualisieren" as DB
+}
+
+K -- Search
+K -- Quote
+K -- Book
+
+Quote ..> Search : <<include>>
+Quote ..> Price : <<include>>
+Quote <.. Details : <<extend>>
+Quote <.. QuoteEmail : <<extend>>
+
+Book ..> Search : <<include>>
+Book ..> Price : <<include>>
+Book ..> Review : <<include>>
+Book ..> Conditions : <<include>>
+Book ..> Data : <<include>>
+Book ..> Card : <<include>>
+Book ..> Confirm : <<include>>
+Book <.. Options : <<extend>>
+
+Confirm ..> ConfirmEmail : <<include>>
+Confirm ..> DB : <<include>>
+
+Details -[hidden]- QuoteEmail
+@enduml
