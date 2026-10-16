@@ -7,7 +7,7 @@ skinparam ranksep 60
 class EKunde {
   kundenId
   name
-  strasse
+  straße
   plz
   ort
   telefonnummer
@@ -18,18 +18,18 @@ class EKunde {
 class EKreditkarte {
   kartennummer
   inhaber
-  gueltigBis
+  gültigBis
 }
 
 class EAngebot {
   angebotId
   abholDatum
-  rueckgabeDatum
+  rückgabeDatum
   preis
 }
 
 class EBuchung {
-  bestaetigungsnummer
+  bestätigungsnummer
   status
   gesamtpreis
 }
@@ -37,8 +37,8 @@ class EBuchung {
 class EFahrzeugtyp {
   typId
   bezeichnung
-  sitzplaetze
-  gepaeckkapazitaet
+  sitzplätze
+  gepäckkapazität
   tagespreis
 }
 
@@ -66,7 +66,7 @@ class EExtra {
 class EAktionscode {
   code
   rabattProzent
-  gueltigBis
+  gültigBis
 }
 
 class EBuchungExtra {
