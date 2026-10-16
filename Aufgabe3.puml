@@ -14,18 +14,18 @@ class Kunde {
 
 class Angebot {
   abholDatum
-  rueckgabeDatum
+  rückgabeDatum
   preis
 }
 
 class Buchung {
-  bestaetigungsnummer
+  bestätigungsnummer
 }
 
 class Fahrzeugtyp {
   bezeichnung
   sitzplaetze
-  gepaeckkapazitaet
+  gepäckkapazität
 }
 
 class Standort {
