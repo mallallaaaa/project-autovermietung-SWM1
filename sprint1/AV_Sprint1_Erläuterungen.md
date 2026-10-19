@@ -6,10 +6,11 @@
 
 Ziel unseres Projekts ist die Anforderungsanalyse für ein webbasiertes Autovermietungssystem (AV). Kundinnen und Kunden sollen verfügbare Fahrzeugtypen für einen gewünschten Zeitraum suchen, Angebote mit Preisen und Fahrzeugdetails einsehen, sich ein Angebot per E-Mail zusenden lassen und anschließend eine Buchung durchführen können. Dabei werden unter anderem Zusatzoptionen, Mietbedingungen, persönliche Angaben und Zahlungsdaten berücksichtigt. Nach erfolgreicher Prüfung der Buchungsdaten wird die Buchung gespeichert; der Kunde erhält eine Bestätigungsnummer und eine E-Mail.
 
-Wir haben die Modellierung bewusst **schrittweise verfeinert**. In Aufgabe 1 betrachten wir die wichtigsten Ziele aus Sicht des Kunden. Aufgabe 2 beschreibt die dafür notwendigen Systemfunktionen detaillierter. Aufgabe 3 identifiziert die zentralen fachlichen Konzepte und ihre Beziehungen. Aufgabe 4 verfeinert diese Konzepte zu persistenten Entitätsklassen mit Attributen, Datentypen und Multiplizitäten. So bleibt die Verbindung zwischen Anforderungen, Verhalten und Datenmodell nachvollziehbar.
-
-Die Diagramme beruhen auf der Projektbeschreibung *Autovermietung – Projekt 1* und verwenden die UML-Notation aus dem bereitgestellten *UML Tutorial*. Wo die Aufgabenstellung Details offenlässt, haben wir eigene Modellierungsannahmen getroffen und begründen sie im Folgenden.
-
+Wir haben die Modellierung bewusst **schrittweise verfeinert**.
+- Aufgabe 1 betrachten wir die wichtigsten Ziele aus Sicht des Kunden
+- Aufgabe 2 beschreibt die dafür notwendigen Systemfunktionen detaillierter.
+- Aufgabe 3 identifiziert die zentralen fachlichen Konzepte und ihre Beziehungen.
+- Aufgabe 4 verfeinert diese Konzepte zu Entitätsklassen mit Attributen, Datentypen und Multiplizitäten.
 ### Verwendete UML-Notation
 
 | Notation | Bedeutung |
@@ -17,22 +18,20 @@ Die Diagramme beruhen auf der Projektbeschreibung *Autovermietung – Projekt 1*
 | **Akteur** | Externe Rolle, die mit dem AV-System interagiert. |
 | **Use Case (Ellipse)** | Vom System bereitgestellte Funktion bzw. Interaktionsziel. |
 | **Systemgrenze (Rechteck)** | Trennt das AV-System von externen Akteuren. |
-| **`<<include>>`** | Der Basis-Use-Case verwendet das eingeschlossene Verhalten als festen Bestandteil. Der gestrichelte Pfeil zeigt **auf den eingeschlossenen** Use Case. |
-| **`<<extend>>`** | Ein Use Case ergänzt einen Basis-Use-Case unter einer Bedingung bzw. optional. Der gestrichelte Pfeil zeigt **auf den erweiterten Basis-Use-Case**. |
+| **`<<include>>`** | Ein Anwendungsfall integriert einen anderen Anwendungsfall als verpflichtenden Bestandteil seines Ablaufs. Dies dient auch der Wiederverwendung gemeinsamer Funktionalitäten. |
+| **`<<extend>>`** | Ein Anwendungsfall erweitert einen bestehenden Anwendungsfall um zusätzliches Verhalten, das nur unter bestimmten Bedingungen ausgeführt wird. Der ursprüngliche Anwendungsfall kann unabhängig davon ausgeführt werden. |
 | **Assoziation (durchgezogene Linie)** | Fachliche Beziehung zwischen Klassen; keine gerichtete Datenfluss-Nachricht. |
-| **`1`, `0..1`, `0..*`, `1..*`** | Genau eins; optional höchstens eins; beliebig viele einschließlich null; mindestens eins. Die Multiplizität steht jeweils am betreffenden Assoziationsende. |
+| **`1`, `0..1`, `0..*`, `1..*`** | Genau eins; optional höchstens eins; beliebig viele einschließlich null; mindestens eins. |
 
 ---
 
 ## 2. Aufgabe 1 – Anwendungsfallmodell aus Kundensicht
 
-![Abbildung 1 – Anwendungsfallmodell aus Kundensicht](Abbildungen/Aufgabe1_UseCase_Kundensicht.png)
-
-*Abbildung 1: Grobes Use-Case-Diagramm mit den wichtigsten Funktionen aus Sicht des Kunden.*
+![Abbildung 1 – Anwendungsfallmodell aus Kundensicht](sprint1/Aufgabe1_2.png)
 
 ### 2.1 Ziel und Herleitung
 
-Die erste Aufgabe verlangt ein Anwendungsfallmodell mit einem **hohen Abstraktionsniveau**. Deshalb zeigen wir nicht jeden technischen Verarbeitungsschritt, sondern nur Funktionen, die für den Kunden unmittelbar von Interesse sind. Aus den neun funktionalen Anforderungen haben wir sechs zentrale Anwendungsfälle abgeleitet. Als primärer Akteur wurde **`Kunde`** gewählt, da die Projektbeschreibung auf die selbstständige Online-Suche und -Buchung durch den Kunden ausgerichtet ist. Die Systemgrenze trägt die Bezeichnung **`Autovermietung (AV)`**.
+Die erste Aufgabe verlangt ein Anwendungsfallmodell mit einem **hohen Abstraktionsniveau**. Deshalb zeigen wir nicht jeden technischen Verarbeitungsschritt, sondern nur Funktionen, die für den Kunden (= primärer Akteur) unmittelbar von Interesse sind. 
 
 ### 2.2 Erklärung der Anwendungsfälle
 
@@ -60,9 +59,7 @@ Der Akteur `Kunde` ist direkt mit **Suche, Fahrzeugdetails, E-Mail-Angebot und B
 
 ## 3. Aufgabe 2 – Verfeinertes Anwendungsfallmodell aus Systemsicht
 
-![Abbildung 2 – Verfeinertes Anwendungsfallmodell aus Systemsicht](Abbildungen/Aufgabe2_UseCase_Systemsicht.png)
-
-*Abbildung 2: Verfeinertes Use-Case-Diagramm mit 15 Systemfunktionen für das Happy Scenario.*
+![Abbildung 2 – Verfeinertes Anwendungsfallmodell aus Systemsicht](sprint1/Aufgabe2.png)
 
 ### 3.1 Ziel und Herleitung
 
@@ -115,9 +112,7 @@ Die Systemfunktionen für **Speichern/Bestätigungsnummer** und **Bestätigungs-
 
 ## 4. Aufgabe 3 – Abstraktes Klassenmodell
 
-![Abbildung 3 – Abstraktes Klassenmodell](Abbildungen/Aufgabe3_Abstraktes_Klassenmodell.png)
-
-*Abbildung 3: Fünf zentrale fachliche Konzepte mit ihren Assoziationen und Multiplizitäten.*
+![Abbildung 3 – Abstraktes Klassenmodell](sprint1/Aufgabe3.png)
 
 ### 4.1 Ziel und Auswahl der Klassen
 
@@ -160,9 +155,7 @@ Die Attribute bleiben absichtlich überschaubar. Versicherungsdetails, Zahlungen
 
 ## 5. Aufgabe 4 – Detailliertes Entitätsklassenmodell
 
-![Abbildung 4 – Entitätsklassenmodell](Abbildungen/Aufgabe4_Entity_Klassenmodell.png)
-
-*Abbildung 4: Verfeinerung des abstrakten Klassenmodells um persistente Entitäten, Attribute, Datentypen und weitere Beziehungen.*
+![Abbildung 4 – Entitätsklassenmodell](sprint1/Aufgabe4.png)
 
 ### 5.1 Ziel und Herleitung
 
