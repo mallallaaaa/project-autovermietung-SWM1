@@ -1,0 +1,34 @@
+@startuml AV_Aufgabe1
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+actor "Kunde" as Kunde
+
+rectangle "Autovermietung (AV)" {
+  usecase "Mietangebote suchen" as UC_Suche
+  usecase "Fahrzeugdetails ansehen" as UC_Details
+  usecase "Angebot per E-Mail erhalten" as UC_AngebotEmail
+  usecase "Fahrzeug buchen" as UC_Buchen
+  usecase "Zusatzoptionen auswählen" as UC_Optionen
+  usecase "Mietbedingungen einsehen" as UC_Bedingungen
+}
+
+Kunde -- UC_Suche
+Kunde -- UC_Details
+Kunde -- UC_AngebotEmail
+Kunde -- UC_Buchen
+
+UC_Details ..> UC_Suche : <<extend>>
+UC_AngebotEmail ..> UC_Suche : <<extend>>
+UC_Optionen ..> UC_Buchen : <<extend>>
+UC_Buchen ..> UC_Bedingungen : <<include>>
+
+note right of UC_Buchen
+  Voraussetzung: Der Kunde hat
+  einen Fahrzeugtyp aus den
+  Suchergebnissen ausgewählt.
+  Ergebnis: Buchungsnummer und
+  Bestätigung per E-Mail.
+end note
+@enduml
