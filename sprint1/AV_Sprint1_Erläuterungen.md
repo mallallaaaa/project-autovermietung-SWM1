@@ -27,7 +27,7 @@ Wir haben die Modellierung bewusst **schrittweise verfeinert**.
 
 ## 2. Aufgabe 1 – Anwendungsfallmodell aus Kundensicht
 
-![Abbildung 1 – Anwendungsfallmodell aus Kundensicht](sprint1/Aufgabe1_2.png)
+![Aufgabe 1](./Aufgabe1_2.png)
 
 ### 2.1 Ziel und Herleitung
 
@@ -57,7 +57,7 @@ Die erste Aufgabe verlangt ein Anwendungsfallmodell mit einem **hohen Abstraktio
 
 ## 3. Aufgabe 2 – Verfeinertes Anwendungsfallmodell aus Systemsicht
 
-![Abbildung 2 – Verfeinertes Anwendungsfallmodell aus Systemsicht](sprint1/Aufgabe2.png)
+![Aufgabe 2](./Aufgabe2.png)
 
 ### 3.1 Ziel und Herleitung
 
@@ -104,17 +104,15 @@ Die Systemfunktionen für **Speichern/Bestätigungsnummer** und **Bestätigungs-
 4. **Fachlicher Unterschied zwischen Prüfen und Validieren:** Der Kunde prüft die angezeigten Mietdaten; das System validiert anschließend die eingegebenen Daten und Zahlungsinformationen.
 5. **Keine Fehlerfälle:** Fehlerbehandlung und alternative Flüsse werden aufgrund der ausdrücklichen Happy-Scenario-Vorgabe nicht modelliert.
 
-**Hinweis zur UML-Semantik:** Ein `<<include>>`-Pfeil legt fest, dass Verhalten einbezogen wird; er definiert **keine zeitliche Reihenfolge**. Eine detaillierte Reihenfolge könnte später in einem Sequenzdiagramm dargestellt werden.
-
 ---
 
 ## 4. Aufgabe 3 – Abstraktes Klassenmodell
 
-![Abbildung 3 – Abstraktes Klassenmodell](sprint1/Aufgabe3.png)
+![Aufgabe 3](./Aufgabe3.png)
 
 ### 4.1 Ziel und Auswahl der Klassen
 
-Für Aufgabe 3 sollen ungefähr **fünf wichtige Konzepte des Anwendungsbereichs** identifiziert werden. Im Gegensatz zu Aufgabe 4 geht es noch nicht um eine möglichst vollständige Datenbankstruktur. Wir konzentrieren uns daher auf die Objekte, die zum Verständnis eines Mietvorgangs zwingend notwendig sind:
+Für Aufgabe 3 sollen ungefähr **fünf wichtige Konzepte des Anwendungsbereichs** identifiziert werden. Wir konzentrieren uns daher auf die Objekte, die zum Verständnis eines Mietvorgangs zwingend notwendig sind:
 
 | Klasse | Bedeutung und bewusst gewählte Attribute |
 |---|---|
@@ -123,8 +121,6 @@ Für Aufgabe 3 sollen ungefähr **fünf wichtige Konzepte des Anwendungsbereichs
 | **Buchung** | Die verbindliche Reservierung auf Grundlage eines Angebots; `bestätigungsnummer` dient zur späteren Identifizierung durch den Kunden. |
 | **Fahrzeugtyp** | Die angebotene Fahrzeugkategorie, beschrieben durch `bezeichnung`, `sitzplätze` und `gepäckkapazität`. |
 | **Standort** | Eine Mietstation mit `name` und `adresse`; sie kann sowohl Abhol- als auch Rückgabeort sein. |
-
-Die Attribute bleiben absichtlich überschaubar. Versicherungsdetails, Zahlungen, Fahrzeugmodelle und gebuchte Extras werden erst im detaillierteren Entitätsmodell ergänzt.
 
 ### 4.2 Assoziationen und Multiplizitäten
 
@@ -153,7 +149,7 @@ Die Attribute bleiben absichtlich überschaubar. Versicherungsdetails, Zahlungen
 
 ## 5. Aufgabe 4 – Detailliertes Entitätsklassenmodell
 
-![Abbildung 4 – Entitätsklassenmodell](sprint1/Aufgabe4.png)
+![Aufgabe 4](./Aufgabe4.png)
 
 ### 5.1 Ziel und Herleitung
 
