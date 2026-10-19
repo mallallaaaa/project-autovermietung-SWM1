@@ -1,20 +1,19 @@
 @startuml AV_Aufgabe3
 skinparam shadowing false
 skinparam classAttributeIconSize 0
+skinparam linetype polyline
 skinparam nodesep 60
 skinparam ranksep 80
 
 class Kunde {
   name
-  adresse
-  telefonnummer
   email
-  alter
 }
 
 class Angebot {
   abholDatum
   rückgabeDatum
+  fahrerAlter
   preis
 }
 
@@ -33,9 +32,20 @@ class Standort {
   adresse
 }
 
-Kunde "1" -right- "0..*" Angebot : fordert an
-Angebot "1" -right- "0..1" Buchung : führt zu
-Angebot "0..*" -down- "1" Fahrzeugtyp : betrifft
-Angebot "0..*" -up- "1" Standort : Abholort
-Angebot "0..*" -up- "1" Standort : Rückgabeort
+' Kunde und Angebot
+Kunde "0..1" -- "0..*" Angebot : fordert an
+
+' Kunde und Buchung
+Kunde "1" -- "0..*" Buchung : taetigt
+
+' Angebot und Buchung
+Angebot "1" -- "0..1" Buchung : fuehrt zu
+
+' Fahrzeugtyp
+Angebot "0..*" -- "1" Fahrzeugtyp : betrifft
+
+' Abhol- und Rueckgabeort
+Angebot "0..*" -- "1" Standort : Abholort
+Angebot "0..*" -- "1" Standort : Rueckgabeort
+
 @enduml
