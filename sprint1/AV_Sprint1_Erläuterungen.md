@@ -44,8 +44,6 @@ Die erste Aufgabe verlangt ein Anwendungsfallmodell mit einem **hohen Abstraktio
 | **Zusatzoptionen auswählen** | Der Kunde kann die Buchung freiwillig um Versicherungsoptionen, Zusatzfahrer, Kindersitze oder einen Aktionscode ergänzen. |
 | **Mietbedingungen einsehen** | Der Kunde erhält die erforderlichen Informationen zu Einschränkungen, Versicherungen, Kraftstoffregelung und Abholung. |
 
-Der Akteur `Kunde` ist direkt mit **Suche, Fahrzeugdetails, E-Mail-Angebot und Buchung** verbunden. Die Zusatzoptionen und Mietbedingungen wurden über die Beziehungen zu `Fahrzeug buchen` modelliert; sie müssen nicht zusätzlich als eigenständige Hauptziele dargestellt werden.
-
 ### 2.3 Begründung der Beziehungen
 
 - **`Fahrzeugdetails ansehen` `<<extend>>` `Mietangebote suchen`:** Die Details sind eine freiwillig aufrufbare Vertiefung der angezeigten Suchergebnisse. Eine Suche ist auch ohne Detailansicht vollständig.
