@@ -1,88 +1,139 @@
 @startuml AV_Aufgabe4
+
 skinparam shadowing false
 skinparam classAttributeIconSize 0
-skinparam nodesep 50
-skinparam ranksep 60
+skinparam linetype ortho
+skinparam nodesep 55
+skinparam ranksep 65
 
+' Kunden
 class EKunde {
-  kundenId
-  name
-  straße
-  plz
-  ort
-  telefonnummer
-  email
-  geburtsdatum
+  kundenId : Integer
+  name : String
+  straße : String
+  plz : String
+  ort : String
+  telefonnummer : String
+  email : String
 }
 
-class EKreditkarte {
-  kartennummer
-  inhaber
-  gültigBis
-}
-
+' Mietangebote
 class EAngebot {
-  angebotId
-  abholDatum
-  rückgabeDatum
-  preis
+  angebotId : Integer
+  abholDatum : Date
+  rückgabeDatum : Date
+  fahrerAlter : Integer
+  angebotspreis : Decimal
+  emailFürAngebot : String
 }
 
+' Buchungen
 class EBuchung {
-  bestätigungsnummer
-  status
-  gesamtpreis
+  buchungsId : Integer
+  bestätigungsnummer : String
+  status : String
+  gesamtpreis : Decimal
 }
 
+' Fahrzeugtypen
 class EFahrzeugtyp {
-  typId
-  bezeichnung
-  sitzplätze
-  gepäckkapazität
-  tagespreis
+  typId : Integer
+  bezeichnung : String
+  sitzplätze : Integer
+  gepäckkapazität : Integer
+  preisProTag : Decimal
+  mindestAlter : Integer
+  kraftstoffregelung : String
+  allgemeineBeschränkungen : String
 }
 
+' Fahrzeugmodelle
 class EFahrzeugmodell {
-  marke
-  modell
+  modellId : Integer
+  marke : String
+  modellName : String
 }
 
+' Standorte
 class EStandort {
-  standortId
-  name
-  adresse
+  standortId : Integer
+  name : String
+  adresse : String
+  abholhinweise : String
 }
 
+' Versicherungen
 class EVersicherung {
-  bezeichnung
-  preisProTag
+  versicherungId : Integer
+  bezeichnung : String
+  beschreibung : String
+  preisProTag : Decimal
 }
 
+' Zusatzleistungen
 class EExtra {
-  bezeichnung
-  preisProTag
+  extraId : Integer
+  bezeichnung : String
+  preisProTag : Decimal
 }
 
+' Aktionscodes
 class EAktionscode {
-  code
-  rabattProzent
-  gültigBis
+  code : String
+  rabattProzent : Decimal
+  gültigBis : Date
 }
 
+' Zahlungsinformationen
+class EZahlungsinformation {
+  zahlungsId : Integer
+  karteninhaber : String
+  letzteVierZiffern : String
+  gültigBis : Date
+  zahlungsToken : String
+  prüfstatus : String
+}
+
+' Gebuchte Extras
 class EBuchungExtra {
-  anzahl
+  buchungExtraId : Integer
+  menge : Integer
 }
 
-EKunde "1" -right- "0..*" EAngebot : fordert an
-EKunde "1" -down- "0..*" EKreditkarte : besitzt
-EAngebot "1" -right- "0..1" EBuchung : führt zu
-EAngebot "0..*" -down- "1" EFahrzeugtyp : betrifft
-EAngebot "0..*" -up- "1" EStandort : Abholort
-EAngebot "0..*" -up- "1" EStandort : Rückgabeort
-EFahrzeugtyp "1" -down- "1..*" EFahrzeugmodell : enthält
-EBuchung "0..*" -down- "1" EKreditkarte : bezahlt mit
-EBuchung "0..*" -right- "0..*" EVersicherung : wählt
-EBuchung "0..*" -down- "0..1" EAktionscode : löst ein
-EBuchung "1" -- "0..*" EBuchungExtra
-EBuchungExtra "0..*" -- "1" EExtra
+' Beziehungen aus Aufgabe 3
+
+EKunde "0..1" -- "0..*" EAngebot : fordert an
+
+EKunde "1" -- "0..*" EBuchung : tätigt
+
+EAngebot "1" -- "0..1" EBuchung : führt zu
+
+EAngebot "0..*" -- "1" EFahrzeugtyp : betrifft
+
+EAngebot "0..*" -- "1" EStandort : Abholort
+
+EAngebot "0..*" -- "1" EStandort : Rückgabeort
+
+' Weitere Beziehungen aus Aufgabe 4
+
+EFahrzeugtyp "1" -- "1..*" EFahrzeugmodell : umfasst
+
+EBuchung "1" -- "1" EZahlungsinformation : nutzt
+
+EBuchung "0..*" -- "0..*" EVersicherung : wählt
+
+EBuchung "0..*" -- "0..1" EAktionscode : verwendet
+
+EBuchung "1" -- "0..*" EBuchungExtra : enthält
+
+EBuchungExtra "0..*" -- "1" EExtra : bezeichnet
+
+' Hinweise zur Zahlungsinformation
+
+note bottom of EZahlungsinformation
+  Kreditkartendaten werden geprüft.
+  Für dauerhafte Speicherung werden
+  nur maskierte Daten / ein Token
+  modelliert, kein Kartenprüfcode.
+end note
 @enduml
