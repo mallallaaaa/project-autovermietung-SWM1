@@ -1,51 +1,76 @@
+
 @startuml AV_Aufgabe2
 left to right direction
+
 skinparam shadowing false
 skinparam packageStyle rectangle
 skinparam linetype polyline
-skinparam nodesep 12
-skinparam ranksep 45
+skinparam nodesep 25
+skinparam ranksep 55
 
 actor "Kunde" as K
 
-rectangle "AV-System" {
-  usecase "Fahrzeuge\nsuchen" as Search
-  usecase "Mietangebot\nerstellen" as Quote
-  usecase "Preis\nberechnen" as Price
-  usecase "Fahrzeugdetails\nanzeigen" as Details
-  usecase "Angebot per\nE-Mail senden" as QuoteEmail
+rectangle "Autovermietung (AV)" {
 
-  usecase "Buchungsanfrage\nbearbeiten" as Book
-  usecase "Mietdaten\nüberprüfen" as Review
-  usecase "Mietoptionen\nanbieten" as Options
+  ' Fahrzeugsuche
+  usecase "Mietangebote\nermitteln" as Search
+  usecase "Suchkriterien\nerfassen" as Criteria
+  usecase "Verfügbarkeit\nprüfen" as Availability
+  usecase "Mietpreise\nberechnen" as Price
+  usecase "Suchergebnisse\nanzeigen" as Results
+
+  ' Optionale Funktionen der Suche
+  usecase "Fahrzeugdetails\nanzeigen" as Details
+  usecase "Angebot per\nE-Mail versenden" as QuoteEmail
+
+  ' Buchung
+  usecase "Buchung\nverarbeiten" as Book
+  usecase "Mietdaten zur\nPrüfung anzeigen" as Review
+  usecase "Zusatzoptionen\nauswählen" as Options
   usecase "Mietbedingungen\nanzeigen" as Conditions
-  usecase "Kunden- und\nZahlungsdaten\nerfassen" as Data
-  usecase "Kreditkarte\nvalidieren" as Card
-  usecase "Buchung\nbestätigen" as Confirm
-  usecase "Bestätigungs-E-Mail\nsenden" as ConfirmEmail
-  usecase "Datenbank\naktualisieren" as DB
+  usecase "Kunden- und\nZahlungsdaten erfassen" as Data
+  usecase "Buchungsdaten und\nKreditkarte validieren" as Validate
+  usecase "Buchung speichern und\nBestätigungsnummer erzeugen" as Save
+  usecase "Buchungsbestätigung\nper E-Mail versenden" as Confirm
 }
 
+' Hauptinteraktionen des Kunden
 K -- Search
-K -- Quote
+K -- Details
+K -- QuoteEmail
 K -- Book
 
-Quote ..> Search : <<include>>
-Quote ..> Price : <<include>>
-Quote <.. Details : <<extend>>
-Quote <.. QuoteEmail : <<extend>>
+' Obligatorische Funktionen der Suche
+Search ..> Criteria : <<include>>
+Search ..> Availability : <<include>>
+Search ..> Price : <<include>>
+Search ..> Results : <<include>>
 
-Book ..> Search : <<include>>
-Book ..> Price : <<include>>
+' Optionale Funktionen nach der Suche
+Details ..> Search : <<extend>>
+QuoteEmail ..> Search : <<extend>>
+
+' Obligatorische Funktionen der Buchung
 Book ..> Review : <<include>>
 Book ..> Conditions : <<include>>
 Book ..> Data : <<include>>
-Book ..> Card : <<include>>
+Book ..> Validate : <<include>>
+Book ..> Price : <<include>>
+Book ..> Save : <<include>>
 Book ..> Confirm : <<include>>
-Book <.. Options : <<extend>>
 
-Confirm ..> ConfirmEmail : <<include>>
-Confirm ..> DB : <<include>>
+' Optionale Zusatzleistungen
+Options ..> Book : <<extend>>
 
-Details -[hidden]- QuoteEmail
+' Happy Scenario
+note right of Book
+  Voraussetzung: Der Kunde hat
+  einen Fahrzeugtyp aus den
+  Suchergebnissen ausgewählt.
+
+  Happy Scenario:
+  Alle eingegebenen Daten
+  und die Kreditkarte sind gültig.
+end note
+
 @enduml
