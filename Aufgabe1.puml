@@ -3,38 +3,46 @@ left to right direction
 skinparam shadowing false
 skinparam packageStyle rectangle
 skinparam linetype polyline
-skinparam nodesep 12
-skinparam ranksep 45
+skinparam nodesep 25
+skinparam ranksep 55
 
 actor "Kunde" as K
 
 rectangle "AV-System" {
+
   usecase "Fahrzeug\nsuchen" as Search
+
   usecase "Mietangebot\nanfordern" as Quote
+
   usecase "Fahrzeugdetails\nansehen" as Details
+
   usecase "Angebot per\nE-Mail erhalten" as QuoteEmail
 
   usecase "Fahrzeug\nbuchen" as Book
+
   usecase "Mietoptionen\nwählen" as Options
+
   usecase "Mietbedingungen\neinsehen" as Conditions
-  usecase "Kunden- und\nZahlungsdaten\nangeben" as Data
-  usecase "Buchungs-\nbestätigung\nerhalten" as Confirm
 }
 
+' Hauptfunktionen des Kunden
 K -- Search
 K -- Quote
 K -- Book
 
-Quote ..> Search : <<include>>
-Book ..> Search : <<include>>
-Quote <.. Details : <<extend>>
-Quote <.. QuoteEmail : <<extend>>
+' Optionale Funktionen bei der Suche
+Quote ..> Search : <<extend>>
+Details ..> Search : <<extend>>
 
-Book <.. Options : <<extend>>
+' Optionaler E-Mail-Versand
+QuoteEmail ..> Quote : <<extend>>
+
+' Buchung
+Options ..> Book : <<extend>>
 Book ..> Conditions : <<include>>
-Book ..> Data : <<include>>
-Book ..> Confirm : <<include>>
 
+' Layout
 Details -[hidden]- QuoteEmail
 Options -[hidden]- Conditions
+
 @enduml
