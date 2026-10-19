@@ -23,7 +23,7 @@ class Buchung {
 
 class Fahrzeugtyp {
   bezeichnung
-  sitzplaetze
+  sitzplätze
   gepäckkapazität
 }
 
@@ -36,16 +36,16 @@ class Standort {
 Kunde "0..1" -- "0..*" Angebot : fordert an
 
 ' Kunde und Buchung
-Kunde "1" -- "0..*" Buchung : taetigt
+Kunde "1" -- "0..*" Buchung : tätigt
 
 ' Angebot und Buchung
-Angebot "1" -- "0..1" Buchung : fuehrt zu
+Angebot "1" -- "0..1" Buchung : führt zu
 
 ' Fahrzeugtyp
 Angebot "0..*" -- "1" Fahrzeugtyp : betrifft
 
 ' Abhol- und Rueckgabeort
 Angebot "0..*" -- "1" Standort : Abholort
-Angebot "0..*" -- "1" Standort : Rueckgabeort
+Angebot "0..*" -- "1" Standort : Rückgabeort
 
 @enduml
