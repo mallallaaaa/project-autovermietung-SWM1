@@ -243,14 +243,3 @@ Hinzu kommen **sechs zusätzliche Assoziationen** für den detaillierten Buchung
 Alle vier Diagramme beschreiben **dasselbe AV-System auf unterschiedlichen Abstraktionsebenen**. Die Kundenziele aus Aufgabe 1 werden in Aufgabe 2 in interne Systemfunktionen aufgeteilt. Die für diese Funktionen zentralen Fachobjekte erscheinen in Aufgabe 3. Aufgabe 4 ergänzt die für die Datenhaltung und die Buchungsoptionen erforderlichen Entitäten. Die Namen, Rollen und Multiplizitäten der fünf Basiskonzepte bleiben dabei möglichst konsistent.
 
 Die Modellierung folgt einem bewusst begrenzten Umfang: Wir betrachten Buchungen von **Fahrzeugtypen**, keine vollständige Fahrzeugflottenverwaltung. Angebote können ohne bereits identifizierten Kunden entstehen; abgeschlossene Buchungen sind einem Kunden zugeordnet. Die eigentliche Validierung der Kreditkartendaten erfolgt im Buchungsprozess, während langfristig nur reduzierte Zahlungsdaten gespeichert werden.
-
-Diese vier Modelle bilden somit die Grundlage für Sprint 2, insbesondere für Sequenzdiagramme, Klassendesign und das Zustandsdiagramm von `EBuchung`.
-
-### Vor der endgültigen Abgabe: Abgleich mit den Bildern
-
-Die **PlantUML-Definitionen sind für Beziehungen und Multiplizitäten maßgeblich**, nicht automatisch erzeugte Bilder. Insbesondere ist in **Abbildung 4** vor der endgültigen PDF-Abgabe zu prüfen, dass die beiden Assoziationen `EAngebot–EStandort` die Multiplizitäten **`0..*` am Ende von `EAngebot`** und **`1` am Ende von `EStandort`** zeigen. Die beigefügte Bildfassung stellt diese beiden Werte vertauscht dar. Auch die anderen Diagramme sollten vor Abgabe mit ihren aktuellen PlantUML-Dateien verglichen werden.
-
-### Verwendete Unterlagen
-
-- *Software Engineering – Projekt 1: Autovermietung*, insbesondere Problemstellung und „Sprint 1 – Anforderungsanalyse“ (S. 1–3).
-- *UML Tutorial*, insbesondere Use-Case-Diagramme, `<<include>>`/`<<extend>>`, Klassendiagramme, Assoziationen und Multiplizitäten.
