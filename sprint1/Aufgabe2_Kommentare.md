@@ -1,6 +1,6 @@
 # Begründung der verwendeten Beziehungen
 
-### <<include>>-Beziehungen wurden für verpflichtende Teilfunktionen des Buchungsprozesses verwendet:
+### include-Beziehungen wurden für verpflichtende Teilfunktionen des Buchungsprozesses verwendet:
 
 - Mietbedingungen anzeigen: Die Mietbedingungen müssen dem Kunden vor der Buchung bereitgestellt werden.
 - Kunden- und Zahlungsdaten erfassen: Diese Informationen werden für eine erfolgreiche Buchung benötigt.
