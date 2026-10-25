@@ -1,0 +1,40 @@
+@startuml
+title Sequenzdiagramm: Fahrzeug buchen
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+actor Kunde
+participant ":BuchungsUI" as UI
+participant ":Steuerung" as ST
+participant ":Zahlung" as ZA
+database ":Datenbank" as DB
+participant ":Mailserver" as MS
+
+Kunde -> UI : Buchen wählen
+UI -> ST : initBuchung()
+activate ST
+ST --> UI : Angebotsdaten
+UI --> Kunde : Zusammenfassung\n(inkl. Mietbedingungen)
+
+Kunde -> UI : Optionen wählen
+UI -> ST : setOptionen()
+ST --> UI : Gesamtpreis
+
+Kunde -> UI : Daten eingeben
+UI -> ST : buche()
+
+ST -> ZA : prüfeKarte()
+activate ZA
+ZA --> ST : gültig
+deactivate ZA
+
+ST -> DB : speichere()
+activate DB
+DB --> ST : Buchungsnummer
+deactivate DB
+
+ST -> MS : sendeMail()
+ST --> UI : Bestätigung
+deactivate ST
+UI --> Kunde : Buchungsnummer
+@enduml
