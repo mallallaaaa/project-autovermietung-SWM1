@@ -1,0 +1,88 @@
+@startuml
+title Klassendiagramm: Fahrzeug buchen (zu Aufgabe 5)
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 70
+skinparam class {
+  BackgroundColor<<boundary>> #E1F5EE
+  BackgroundColor<<control>>  #E1F5EE
+  BackgroundColor<<entity>>   #F1EFE8
+  BackgroundColor<<extern>>   #EEEDFE
+}
+
+' ---------- Klassen aus dem Sequenzdiagramm ----------
+class BuchungsUI <<boundary>> {
+  +wähleBuchen(angebotId: int): void
+  +zeigeZusammenfassung(angebot: EAngebot): void
+  +wähleOptionen(optionen: List<EOption>): void
+  +gibDatenEin(kunde: EKunde, karte: EKreditkarte): void
+  +zeigeBestätigung(buchungsnummer: String): void
+}
+
+class Steuerung <<control>> {
+  +initBuchung(angebotId: int): EAngebot
+  +setOptionen(optionen: List<EOption>): double
+  +buche(kunde: EKunde, karte: EKreditkarte): String
+}
+
+class Zahlung <<extern>> {
+  +prüfeKarte(karte: EKreditkarte): boolean
+}
+
+class Datenbank <<control>> {
+  +speichere(buchung: EBuchung): String
+}
+
+class Mailserver <<extern>> {
+  +sendeMail(email: String, buchungsnummer: String): void
+}
+
+' ---------- Entitäten (nur die, die in den Operationen vorkommen) ----------
+class EAngebot <<entity>> {
+  -angebotId: int
+  -fahrzeugtyp: String
+  -preis: double
+}
+
+class EOption <<entity>> {
+  -bezeichnung: String
+  -preis: double
+}
+
+class EKunde <<entity>> {
+  -name: String
+  -adresse: String
+  -telefon: String
+  -email: String
+}
+
+class EKreditkarte <<entity>> {
+  -kartennummer: String
+  -gültigBis: String
+  -inhaber: String
+}
+
+class EBuchung <<entity>> {
+  -buchungsnummer: String
+  -gesamtpreis: double
+  -status: String
+}
+
+' ---------- Beziehungen zwischen den Klassen ----------
+BuchungsUI "1" --> "1" Steuerung : ruft auf
+Steuerung "1" --> "1" Zahlung : prüft Karte
+Steuerung "1" --> "1" Datenbank : speichert
+Steuerung "1" --> "1" Mailserver : sendet Mail
+
+' ---------- Beziehungen zwischen den Entitäten ----------
+EBuchung "*" -- "1" EKunde
+EBuchung "*" -- "1" EAngebot
+EBuchung "*" -- "0..*" EOption
+EKunde "1" -- "0..*" EKreditkarte
+
+' ---------- Verwendung als Parameter / Rückgabe ----------
+Steuerung ..> EBuchung : erzeugt
+Datenbank ..> EBuchung : speichert
+@enduml
