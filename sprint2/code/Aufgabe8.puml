@@ -1,0 +1,36 @@
+@startuml
+title Zustandsdiagramm: EBuchung (Attribut status)
+
+skinparam state {
+  BackgroundColor #E1F5EE
+  BorderColor #0F6E56
+}
+
+[*] --> Entwurf : initBuchung()
+
+state Entwurf : Angebot gewählt,\nOptionen änderbar
+Entwurf --> Entwurf : setOptionen()
+Entwurf --> InPrüfung : buche()
+Entwurf --> Abgebrochen : Kunde bricht ab
+
+state InPrüfung : Kreditkarte wird\nvon Zahlung geprüft
+InPrüfung --> Bestätigt : prüfeKarte() = gültig /\nspeichere(), sendeMail()
+InPrüfung --> Abgelehnt : prüfeKarte() = ungültig
+
+state Bestätigt : Buchungsnummer vergeben,\nBestätigung per E-Mail
+Bestätigt --> Storniert : Kunde storniert
+Bestätigt --> Aktiv : Fahrzeug abgeholt
+
+state Aktiv : Fahrzeug ist vermietet
+Aktiv --> Abgeschlossen : Fahrzeug zurückgegeben
+
+state Abgelehnt
+state Abgebrochen
+state Storniert
+state Abgeschlossen
+
+Abgelehnt --> [*]
+Abgebrochen --> [*]
+Storniert --> [*]
+Abgeschlossen --> [*]
+@enduml
