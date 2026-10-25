@@ -1,0 +1,55 @@
+@startuml
+title Schichtenarchitektur AV-System (zu Aufgabe 5 und 6)
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam nodesep 40
+skinparam ranksep 60
+
+package "Präsentationsschicht" <<Layer>> #E1F5EE {
+  package "Buchungsdialog" <<Subsystem>> {
+    class BuchungsUI
+  }
+}
+
+package "Steuerungsschicht" <<Layer>> #EEEDFE {
+  package "Buchungsverarbeitung" <<Subsystem>> {
+    class Steuerung
+  }
+  package "Zahlungsabwicklung" <<Subsystem>> {
+    class Zahlung
+  }
+  package "Benachrichtigung" <<Subsystem>> {
+    class Mailserver
+  }
+}
+
+package "Datenschicht" <<Layer>> #F1EFE8 {
+  package "Persistenz" <<Subsystem>> {
+    class Datenbank
+  }
+  package "Entitäten" <<Subsystem>> {
+    class EAngebot
+    class EOption
+    class EKunde
+    class EKreditkarte
+    class EBuchung
+  }
+}
+
+' ---------- Kontrollfluss (Aufrufe von oben nach unten) ----------
+BuchungsUI --> Steuerung : initBuchung(), setOptionen(), buche()
+Steuerung --> Zahlung : prüfeKarte()
+Steuerung --> Mailserver : sendeMail()
+Steuerung --> Datenbank : speichere()
+
+' ---------- Datenfluss (Entitäten als Parameter/Rückgabe) ----------
+BuchungsUI ..> EAngebot : zeigt an
+BuchungsUI ..> EKunde : erfasst
+BuchungsUI ..> EKreditkarte : erfasst
+BuchungsUI ..> EOption : erfasst
+Steuerung ..> EBuchung : erzeugt
+Zahlung ..> EKreditkarte : prüft
+Datenbank ..> EBuchung : speichert
+Mailserver ..> EBuchung : liest
+@enduml
