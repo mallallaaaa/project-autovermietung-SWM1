@@ -1,88 +1,155 @@
-@startuml
+
+@startuml AV_Aufgabe6
+
 title Klassendiagramm: Fahrzeug buchen (zu Aufgabe 5)
 
+skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
-skinparam nodesep 60
-skinparam ranksep 70
+skinparam nodesep 55
+skinparam ranksep 65
+
 skinparam class {
-  BackgroundColor<<boundary>> #E1F5EE
-  BackgroundColor<<control>>  #E1F5EE
-  BackgroundColor<<entity>>   #F1EFE8
-  BackgroundColor<<extern>>   #EEEDFE
+  BackgroundColor<<boundary>> #F2F2F2
+  BackgroundColor<<control>> #F2F2F2
+  BackgroundColor<<entity>> #F2F2F2
+  BackgroundColor<<extern>> #F2F2F2
+  BackgroundColor<<data>> #F2F2F2
 }
 
-' ---------- Klassen aus dem Sequenzdiagramm ----------
+' ==========================================
+' KLASSEN AUS DEM SEQUENZDIAGRAMM (AUFGABE 5)
+' ==========================================
+
 class BuchungsUI <<boundary>> {
-  +wähleBuchen(angebotId: int): void
+  +wähleBuchen(angebotId: Integer): void
   +zeigeZusammenfassung(angebot: EAngebot): void
-  +wähleOptionen(optionen: List<EOption>): void
-  +gibDatenEin(kunde: EKunde, karte: EKreditkarte): void
+  +wähleOptionen(optionen: Buchungsoptionen): void
+  +zeigeGesamtpreis(preis: Decimal): void
+  +gibDatenEin(kunde: EKunde, zahlungsdaten: Zahlungsdaten): void
   +zeigeBestätigung(buchungsnummer: String): void
 }
 
 class Steuerung <<control>> {
-  +initBuchung(angebotId: int): EAngebot
-  +setOptionen(optionen: List<EOption>): double
-  +buche(kunde: EKunde, karte: EKreditkarte): String
-}
+  -aktuellesAngebot: EAngebot
+  -gewählteOptionen: Buchungsoptionen
 
-class Zahlung <<extern>> {
-  +prüfeKarte(karte: EKreditkarte): boolean
+  +initBuchung(angebotId: Integer): EAngebot
+  +setOptionen(optionen: Buchungsoptionen): Decimal
+  +buche(kunde: EKunde, zahlungsdaten: Zahlungsdaten): String
+
+  -erstelleBuchung(angebot: EAngebot, kunde: EKunde, optionen: Buchungsoptionen): EBuchung
 }
 
 class Datenbank <<control>> {
+  +ladeAngebot(angebotId: Integer): EAngebot
   +speichere(buchung: EBuchung): String
+}
+
+class Zahlung <<extern>> {
+  +prüfeKarte(zahlungsdaten: Zahlungsdaten): boolean
 }
 
 class Mailserver <<extern>> {
   +sendeMail(email: String, buchungsnummer: String): void
 }
 
-' ---------- Entitäten (nur die, die in den Operationen vorkommen) ----------
-class EAngebot <<entity>> {
-  -angebotId: int
-  -fahrzeugtyp: String
-  -preis: double
-}
+' ==========================================
+' ENTITÄTEN AUS SPRINT 1
+' ==========================================
 
-class EOption <<entity>> {
-  -bezeichnung: String
-  -preis: double
+class EAngebot <<entity>> {
+  -angebotId: Integer
+  -abholDatum: Date
+  -rückgabeDatum: Date
+  -fahrerAlter: Integer
+  -angebotspreis: Decimal
 }
 
 class EKunde <<entity>> {
+  -kundenId: Integer
   -name: String
-  -adresse: String
-  -telefon: String
+  -straße: String
+  -plz: String
+  -ort: String
+  -telefonnummer: String
   -email: String
 }
 
-class EKreditkarte <<entity>> {
-  -kartennummer: String
-  -gültigBis: String
-  -inhaber: String
-}
-
 class EBuchung <<entity>> {
-  -buchungsnummer: String
-  -gesamtpreis: double
+  -buchungsId: Integer
+  -bestätigungsnummer: String
+  -abholDatum: Date
+  -rückgabeDatum: Date
+  -gesamtpreis: Decimal
   -status: String
 }
 
-' ---------- Beziehungen zwischen den Klassen ----------
-BuchungsUI "1" --> "1" Steuerung : ruft auf
-Steuerung "1" --> "1" Zahlung : prüft Karte
-Steuerung "1" --> "1" Datenbank : speichert
-Steuerung "1" --> "1" Mailserver : sendet Mail
+class EZahlungsinformation <<entity>> {
+  -zahlungsId: Integer
+  -karteninhaber: String
+  -letzteVierZiffern: String
+  -gültigBis: Date
+  -zahlungsToken: String
+  -prüfstatus: String
+}
 
-' ---------- Beziehungen zwischen den Entitäten ----------
-EBuchung "*" -- "1" EKunde
-EBuchung "*" -- "1" EAngebot
-EBuchung "*" -- "0..*" EOption
-EKunde "1" -- "0..*" EKreditkarte
+' ==========================================
+' TEMPORÄRE DATENOBJEKTE
+' ==========================================
 
-' ---------- Verwendung als Parameter / Rückgabe ----------
-Steuerung ..> EBuchung : erzeugt
+class Buchungsoptionen <<data>> {
+  -versicherungsIds: List<Integer>
+  -extraMengen: Map<Integer, Integer>
+  -aktionscode: String
+}
+
+class Zahlungsdaten <<data>> {
+  -karteninhaber: String
+  -kartennummer: String
+  -gültigBis: Date
+}
+
+' ==========================================
+' BEZIEHUNGEN DER SYSTEMKLASSEN
+' ==========================================
+
+BuchungsUI --> Steuerung : ruft auf
+
+Steuerung --> Datenbank : lädt / speichert
+Steuerung --> Zahlung : prüft Karte
+Steuerung --> Mailserver : sendet Bestätigung
+
+' ==========================================
+' BEZIEHUNGEN ZWISCHEN DEN ENTITÄTEN
+' ==========================================
+
+EKunde "1" -- "0..*" EBuchung : tätigt
+
+EAngebot "1" -- "0..1" EBuchung : führt zu
+
+EBuchung "1" -- "1" EZahlungsinformation : nutzt
+
+' ==========================================
+' ABHÄNGIGKEITEN ZU DATENOBJEKTEN
+' ==========================================
+
+Steuerung ..> EAngebot : verarbeitet
+Steuerung ..> EBuchung : erstellt
+
+BuchungsUI ..> Buchungsoptionen : erfasst
+BuchungsUI ..> Zahlungsdaten : erfasst
+
+Steuerung ..> Buchungsoptionen : verarbeitet
+Zahlung ..> Zahlungsdaten : prüft
+
+Datenbank ..> EAngebot : lädt
 Datenbank ..> EBuchung : speichert
+
+note bottom of Zahlungsdaten
+  Nur temporär während der Buchung.
+  Vollständige Kreditkartendaten
+  werden nicht dauerhaft gespeichert.
+end note
+
 @enduml
