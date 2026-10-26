@@ -1,55 +1,140 @@
-@startuml
-title Schichtenarchitektur AV-System (zu Aufgabe 5 und 6)
 
+@startuml AV_Aufgabe7
+
+title Schichtenarchitektur AV-System (Sprint 2, Aufgabe 7)
+
+top to bottom direction
+skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam packageStyle rectangle
-skinparam nodesep 40
-skinparam ranksep 60
+skinparam linetype ortho
+skinparam nodesep 50
+skinparam ranksep 75
+skinparam classBackgroundColor #F2F2F2
 
-package "Präsentationsschicht" <<Layer>> #E1F5EE {
+' ================================================
+' 1. PRÄSENTATIONSSCHICHT
+' ================================================
+
+package "1. Präsentationsschicht" <<Layer>> #F5F5F5 {
+
+  package "Angebotssuche" <<Subsystem>> {
+    class SuchUI <<boundary>>
+  }
+
   package "Buchungsdialog" <<Subsystem>> {
-    class BuchungsUI
+    class BuchungsUI <<boundary>>
   }
 }
 
-package "Steuerungsschicht" <<Layer>> #EEEDFE {
+' ================================================
+' 2. STEUERUNGS- UND VERARBEITUNGSSCHICHT
+' ================================================
+
+package "2. Steuerungs- / Verarbeitungsschicht" <<Layer>> #EAEAEA {
+
+  package "Suchverarbeitung" <<Subsystem>> {
+    class SuchSteuerung <<control>>
+  }
+
   package "Buchungsverarbeitung" <<Subsystem>> {
-    class Steuerung
-  }
-  package "Zahlungsabwicklung" <<Subsystem>> {
-    class Zahlung
-  }
-  package "Benachrichtigung" <<Subsystem>> {
-    class Mailserver
+    class Steuerung <<control>>
   }
 }
 
-package "Datenschicht" <<Layer>> #F1EFE8 {
+' ================================================
+' 3. DATEN-, ENTITÄTS- UND MODELLSCHICHT
+' ================================================
+
+package "3. Daten- / Entitäts- / Modellschicht" <<Layer>> #F5F5F5 {
+
   package "Persistenz" <<Subsystem>> {
-    class Datenbank
+    class Datenbank <<control>>
   }
-  package "Entitäten" <<Subsystem>> {
-    class EAngebot
-    class EOption
-    class EKunde
-    class EKreditkarte
-    class EBuchung
+
+  package "Kunden und Buchungen" <<Subsystem>> {
+    class EAngebot <<entity>>
+    class EKunde <<entity>>
+    class EBuchung <<entity>>
+    class EZahlungsinformation <<entity>>
+  }
+
+  package "Fahrzeugkatalog und Standorte" <<Subsystem>> {
+    class EFahrzeugtyp <<entity>>
+    class EFahrzeugmodell <<entity>>
+    class EStandort <<entity>>
+  }
+
+  package "Buchungszusätze" <<Subsystem>> {
+    class EVersicherung <<entity>>
+    class EExtra <<entity>>
+    class EBuchungExtra <<entity>>
+    class EAktionscode <<entity>>
+  }
+
+  package "Temporäre Datenobjekte" <<Subsystem>> {
+    class Buchungsoptionen <<data>>
+    class Zahlungsdaten <<data>>
   }
 }
 
-' ---------- Kontrollfluss (Aufrufe von oben nach unten) ----------
-BuchungsUI --> Steuerung : initBuchung(), setOptionen(), buche()
-Steuerung --> Zahlung : prüfeKarte()
-Steuerung --> Mailserver : sendeMail()
-Steuerung --> Datenbank : speichere()
+' ================================================
+' EXTERNE SYSTEME
+' ================================================
 
-' ---------- Datenfluss (Entitäten als Parameter/Rückgabe) ----------
-BuchungsUI ..> EAngebot : zeigt an
-BuchungsUI ..> EKunde : erfasst
-BuchungsUI ..> EKreditkarte : erfasst
-BuchungsUI ..> EOption : erfasst
+package "Externe Systeme" #FFFFFF {
+  class Zahlung <<extern>>
+  class Mailserver <<extern>>
+}
+
+' ================================================
+' KONTROLLFLUSS
+' ================================================
+
+SuchUI --> SuchSteuerung : sucheAngebote(kriterien)
+
+SuchSteuerung --> Datenbank : sucheAngebote(kriterien)
+
+BuchungsUI --> Steuerung : initBuchung(angebotId)\nsetOptionen(optionen)\nbuche(kunde, zahlungsdaten)
+
+Steuerung --> Datenbank : ladeAngebot(angebotId)\nspeichere(buchung)
+
+Steuerung --> Zahlung : prüfeKarte(zahlungsdaten)
+
+Steuerung --> Mailserver : sendeMail(email, buchungsnummer)
+
+' ================================================
+' DATENFLUSS
+' ================================================
+
+SuchUI ..> EAngebot : zeigt Suchergebnisse
+
+BuchungsUI ..> EAngebot : zeigt Zusammenfassung
+BuchungsUI ..> EKunde : erfasst Kundendaten
+BuchungsUI ..> Buchungsoptionen : erfasst Optionen
+BuchungsUI ..> Zahlungsdaten : erfasst Zahlungsdaten
+
+SuchSteuerung ..> EFahrzeugtyp : ermittelt Typen
+SuchSteuerung ..> EStandort : berücksichtigt Orte
+
 Steuerung ..> EBuchung : erzeugt
-Zahlung ..> EKreditkarte : prüft
+
+Datenbank ..> EAngebot : lädt
 Datenbank ..> EBuchung : speichert
-Mailserver ..> EBuchung : liest
+
+Zahlung ..> Zahlungsdaten : prüft temporär
+
+note bottom of Zahlungsdaten
+  Nur während der Buchung verwendet.
+  Vollständige Kartennummern werden
+  nicht dauerhaft gespeichert.
+end note
+
+note right of Datenbank
+  "Datenbank" ist die Datenzugriffsklasse
+  aus Aufgabe 5 und 6.
+  Eine spätere Aufteilung in
+  Repositories ist möglich.
+end note
+
 @enduml
