@@ -1,20 +1,21 @@
-
 @startuml AV_Aufgabe6
 
 title Klassendiagramm: Fahrzeug buchen (zu Aufgabe 5)
 
+left to right direction
+
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
-skinparam nodesep 55
-skinparam ranksep 65
+skinparam nodesep 70
+skinparam ranksep 80
 
 skinparam class {
   BackgroundColor<<boundary>> #F2F2F2
-  BackgroundColor<<control>> #F2F2F2
-  BackgroundColor<<entity>> #F2F2F2
-  BackgroundColor<<extern>> #F2F2F2
-  BackgroundColor<<data>> #F2F2F2
+  BackgroundColor<<control>>  #F2F2F2
+  BackgroundColor<<entity>>   #F2F2F2
+  BackgroundColor<<extern>>   #F2F2F2
+  BackgroundColor<<data>>     #F2F2F2
 }
 
 ' ==========================================
@@ -38,7 +39,11 @@ class Steuerung <<control>> {
   +setOptionen(optionen: Buchungsoptionen): Decimal
   +buche(kunde: EKunde, zahlungsdaten: Zahlungsdaten): String
 
-  -erstelleBuchung(angebot: EAngebot, kunde: EKunde, optionen: Buchungsoptionen): EBuchung
+  -erstelleBuchung(
+    angebot: EAngebot,
+    kunde: EKunde,
+    optionen: Buchungsoptionen
+  ): EBuchung
 }
 
 class Datenbank <<control>> {
@@ -58,14 +63,6 @@ class Mailserver <<extern>> {
 ' ENTITÄTEN AUS SPRINT 1
 ' ==========================================
 
-class EAngebot <<entity>> {
-  -angebotId: Integer
-  -abholDatum: Date
-  -rückgabeDatum: Date
-  -fahrerAlter: Integer
-  -angebotspreis: Decimal
-}
-
 class EKunde <<entity>> {
   -kundenId: Integer
   -name: String
@@ -74,6 +71,14 @@ class EKunde <<entity>> {
   -ort: String
   -telefonnummer: String
   -email: String
+}
+
+class EAngebot <<entity>> {
+  -angebotId: Integer
+  -abholDatum: Date
+  -rückgabeDatum: Date
+  -fahrerAlter: Integer
+  -angebotspreis: Decimal
 }
 
 class EBuchung <<entity>> {
@@ -111,7 +116,7 @@ class Zahlungsdaten <<data>> {
 }
 
 ' ==========================================
-' BEZIEHUNGEN DER SYSTEMKLASSEN
+' SYSTEMBEZIEHUNGEN
 ' ==========================================
 
 BuchungsUI --> Steuerung : ruft auf
@@ -121,30 +126,41 @@ Steuerung --> Zahlung : prüft Karte
 Steuerung --> Mailserver : sendet Bestätigung
 
 ' ==========================================
-' BEZIEHUNGEN ZWISCHEN DEN ENTITÄTEN
+' ENTITÄTSBEZIEHUNGEN
 ' ==========================================
 
 EKunde "1" -- "0..*" EBuchung : tätigt
-
 EAngebot "1" -- "0..1" EBuchung : führt zu
-
 EBuchung "1" -- "1" EZahlungsinformation : nutzt
 
 ' ==========================================
-' ABHÄNGIGKEITEN ZU DATENOBJEKTEN
+' NOTWENDIGE ABHÄNGIGKEITEN ZU DATENOBJEKTEN
 ' ==========================================
-
-Steuerung ..> EAngebot : verarbeitet
-Steuerung ..> EBuchung : erstellt
 
 BuchungsUI ..> Buchungsoptionen : erfasst
 BuchungsUI ..> Zahlungsdaten : erfasst
 
-Steuerung ..> Buchungsoptionen : verarbeitet
 Zahlung ..> Zahlungsdaten : prüft
-
 Datenbank ..> EAngebot : lädt
 Datenbank ..> EBuchung : speichert
+
+' ==========================================
+' LAYOUT-HILFEN
+' ==========================================
+
+BuchungsUI -[hidden]right- Steuerung
+Steuerung -[hidden]right- Datenbank
+
+Zahlung -[hidden]down- Mailserver
+
+EKunde -[hidden]right- EAngebot
+EAngebot -[hidden]right- EBuchung
+EBuchung -[hidden]right- EZahlungsinformation
+
+Buchungsoptionen -[hidden]right- Zahlungsdaten
+Steuerung -[hidden]down- EBuchung
+BuchungsUI -[hidden]down- Buchungsoptionen
+Datenbank -[hidden]down- EZahlungsinformation
 
 note bottom of Zahlungsdaten
   Nur temporär während der Buchung.
