@@ -1,40 +1,100 @@
-@startuml
+
+@startuml AV_Aufgabe5
+
 title Sequenzdiagramm: Fahrzeug buchen
+
 skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow true
+skinparam shadowing false
 
-actor Kunde
+actor "Kunde" as K
 participant ":BuchungsUI" as UI
 participant ":Steuerung" as ST
-participant ":Zahlung" as ZA
 database ":Datenbank" as DB
+participant ":Zahlung" as ZA
 participant ":Mailserver" as MS
 
-Kunde -> UI : Buchen wählen
-UI -> ST : initBuchung()
+' 1. Angebot auswählen und Buchung initialisieren
+
+K -> UI : Buchen wählen
+activate UI
+
+UI -> ST : initBuchung(angebotId)
 activate ST
+
+ST -> DB : ladeAngebot(angebotId)
+activate DB
+DB --> ST : angebot
+deactivate DB
+
 ST --> UI : Angebotsdaten
-UI --> Kunde : Zusammenfassung\n(inkl. Mietbedingungen)
+deactivate ST
 
-Kunde -> UI : Optionen wählen
-UI -> ST : setOptionen()
+UI --> K : Zusammenfassung\n(inkl. Mietbedingungen)
+deactivate UI
+
+
+' 2. Zusatzoptionen auswählen
+
+K -> UI : Optionen wählen
+activate UI
+
+UI -> ST : setOptionen(optionen)
+activate ST
+
 ST --> UI : Gesamtpreis
+deactivate ST
 
-Kunde -> UI : Daten eingeben
-UI -> ST : buche()
+UI --> K : Gesamtpreis anzeigen
+deactivate UI
 
-ST -> ZA : prüfeKarte()
+
+' 3. Kundendaten und Zahlungsdaten eingeben
+
+K -> UI : Daten eingeben
+activate UI
+
+UI -> ST : buche(kunde, zahlungsdaten)
+activate ST
+
+' Buchung mit den Angebotsdaten erstellen
+
+ST -> ST : erstelleBuchung(angebot, kunde, optionen)
+
+
+' 4. Kreditkarte überprüfen
+
+ST -> ZA : prüfeKarte(zahlungsdaten)
 activate ZA
+
 ZA --> ST : gültig
 deactivate ZA
 
-ST -> DB : speichere()
+
+' 5. Buchung speichern
+
+ST -> DB : speichere(buchung)
 activate DB
+
 DB --> ST : Buchungsnummer
 deactivate DB
 
-ST -> MS : sendeMail()
+
+' 6. Bestätigung per E-Mail versenden
+
+ST -> MS : sendeMail(email, buchungsnummer)
+activate MS
+
+MS --> ST : E-Mail versendet
+deactivate MS
+
+
+' 7. Buchung bestätigen
+
 ST --> UI : Bestätigung
 deactivate ST
-UI --> Kunde : Buchungsnummer
+
+UI --> K : Buchungsnummer
+deactivate UI
+
 @enduml
