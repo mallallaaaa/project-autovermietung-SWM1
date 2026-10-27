@@ -133,8 +133,18 @@ end note
 note right of Datenbank
   "Datenbank" ist die Datenzugriffsklasse
   aus Aufgabe 5 und 6.
-  Eine spätere Aufteilung in
-  Repositories ist möglich.
+  Gemeinsam mit den Entitäten ist sie
+  hier als architektonische Vereinfachung
+  in einer Schicht dargestellt.
+  Eine spätere Trennung in Domänen-
+  und Datenzugriffsschicht ist möglich.
+end note
+
+note right of Zahlung
+  Zahlung und Mailserver sind bewusst
+  außerhalb der Schichten modelliert,
+  da sie externe Dienste und keine
+  internen Fach- oder Persistenzklassen sind.
 end note
 
 @enduml
