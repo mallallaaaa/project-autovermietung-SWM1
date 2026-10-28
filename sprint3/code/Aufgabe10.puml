@@ -1,0 +1,45 @@
+@startuml
+title Bereitstellungsdiagramm: AV-Anwendung
+
+skinparam shadowing false
+skinparam nodesep 50
+skinparam ranksep 80
+left to right direction
+
+node "Kunden-PC" <<Gerät>> {
+  node "Webbrowser" <<Ausführungsumgebung>> as BR
+}
+
+node "Anwendungsserver" <<Gerät>> {
+  node "Apache Tomcat" <<Ausführungsumgebung>> as TC {
+    artifact "av-anwendung.jar" as JAR
+    component "Buchungsdialog" as UI
+    component "Buchungsverarbeitung" as ST
+    component "Zahlungsabwicklung" as ZA
+    component "Benachrichtigung" as MS
+    component "Persistenz" as DB
+  }
+}
+
+node "Datenbankserver" <<Gerät>> {
+  node "DBMS" <<Ausführungsumgebung>> as DBMS {
+    database "AV-Datenbank" as AVDB
+  }
+}
+
+node "Kreditkarten-Gateway" <<Gerät>> as KG
+node "E-Mail-Server" <<Gerät>> as EMS
+
+' ---------- Manifestation: Artefakt enthält die Komponenten ----------
+JAR ..> UI : <<manifest>>
+JAR ..> ST : <<manifest>>
+JAR ..> ZA : <<manifest>>
+JAR ..> MS : <<manifest>>
+JAR ..> DB : <<manifest>>
+
+' ---------- Kommunikationspfade ----------
+BR -- TC : HTTPS
+DB -- DBMS : JDBC
+ZA -- KG : HTTPS
+MS -- EMS : SMTP
+@enduml
