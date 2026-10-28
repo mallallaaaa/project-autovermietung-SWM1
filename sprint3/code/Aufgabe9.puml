@@ -1,0 +1,74 @@
+@startuml
+title Komponentendiagramm: AV-Anwendung
+
+left to right direction
+skinparam componentStyle uml2
+skinparam shadowing false
+skinparam nodesep 50
+skinparam ranksep 110
+skinparam package {
+  BorderColor #888780
+  BackgroundColor #FAFAFA
+}
+skinparam component {
+  BackgroundColor #E1F5EE
+  BorderColor #0F6E56
+}
+skinparam note {
+  BackgroundColor #FFFFFF
+  BorderColor #B4B2A9
+}
+
+package "Präsentationsschicht" {
+  component "Buchungsdialog" as UI
+}
+
+package "Steuerungsschicht" {
+  component "Buchungsverarbeitung" as ST
+  component "Zahlungsabwicklung" as ZA
+  component "Benachrichtigung" as MS
+}
+
+package "Datenschicht" {
+  component "Persistenz" as DB
+}
+
+component "Kreditkarten-Gateway" as KG #FFFFFF
+component "E-Mail-Dienst" as EM #FFFFFF
+
+interface "IBuchung" as IB
+interface "IZahlung" as IZ
+interface "IBenachrichtigung" as IM
+interface "IPersistenz" as IP
+
+' ---------- angebotene Schnittstellen ----------
+ST - IB
+ZA - IZ
+MS - IM
+DB - IP
+
+' ---------- benötigte Schnittstellen ----------
+UI ..> IB : nutzt
+ST ..> IZ : nutzt
+ST ..> IM : nutzt
+ST ..> IP : nutzt
+
+' ---------- externe Systeme ----------
+ZA ..> KG : prüft Karte über
+MS ..> EM : versendet über
+
+note bottom of IB
+  initBuchung(angebotId): EAngebot
+  setOptionen(optionen): double
+  buche(kunde, karte): String
+end note
+note bottom of IZ
+  prüfeKarte(karte): boolean
+end note
+note bottom of IM
+  sendeMail(email, buchungsnummer): void
+end note
+note bottom of IP
+  speichere(buchung): String
+end note
+@enduml
